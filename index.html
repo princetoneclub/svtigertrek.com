@@ -1,433 +1,679 @@
-<!DOCTYPE HTML>
-<!--
-	Copyright Silicon Valley TigerTrek. All rights reserved.
-    Website built by Theodor Marcu marcu.theodor@gmail.com
-    tmarcu@princeton.edu
--->
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-   <title>Silicon Valley TigerTrek&#8482;</title>
-   <meta charset="utf-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1" />
-   <link rel="stylesheet" href="assets/css/main.css" />
-   <script>
-      var vid = document.getElementById("backgroundvid");
-      vid.muted = true;
-   </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silicon Valley TigerTrek™ | SVTT</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-   <!-- Global site tag (gtag.js) - Google Analytics -->
-   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144508322-1"></script>
-   <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
+    :root {
+      --cream: #fffdf3;
+      --blue:  #26a9e0;
+    }
 
-      gtag('config', 'UA-144508322-1');
-   </script>
+    html { scroll-behavior: smooth; }
 
+    body {
+      background: var(--cream);
+      font-family: Georgia, 'Times New Roman', serif;
+      color: #000;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ───────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 720px;
+      background: #0b1624;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 60px 5%;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: clamp(1.5rem, 3vw, 3rem);
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-logo {
+      flex-shrink: 0;
+      width: clamp(180px, 28vw, 360px);
+    }
+    .hero-logo img { width: 100%; height: auto; display: block; }
+
+    .hero-rule {
+      width: 1px;
+      height: clamp(120px, 15vw, 220px);
+      background: rgba(255,255,255,.45);
+      flex-shrink: 0;
+    }
+
+    .hero-copy { color: #fff; }
+
+    .hero-copy h1 {
+      font-size: clamp(22px, 3.2vw, 40px);
+      font-weight: bold;
+      text-shadow: 0 4px 4px rgba(0,0,0,.35);
+      max-width: 480px;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .hero-copy p {
+      font-size: clamp(15px, 1.6vw, 20px);
+      text-shadow: 0 4px 4px rgba(0,0,0,.25);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .apply-btn {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      font-family: Georgia, serif;
+      font-size: clamp(16px, 1.4vw, 20px);
+      padding: 10px 30px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background .2s, transform .2s;
+    }
+    .apply-btn:hover { background: #1a8fc0; transform: translateY(-2px); }
+
+    /* ── PHOTO GALLERY ──────────────────────────────────────────── */
+    .gallery {
+      display: flex;
+      gap: 5px;
+      width: 100%;
+      align-items: flex-start;
+      margin-top: 32px;
+    }
+
+    .gallery-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .gallery-col img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* aspect ratios derived from Figma pixel heights ÷ 339px col width */
+    .g-r194  { aspect-ratio: 339/175; }
+    .g-r148  { aspect-ratio: 339/229; }
+    .g-r157  { aspect-ratio: 338/216; }
+    .g-r108a { aspect-ratio: 339/313; }
+    .g-r108b { aspect-ratio: 339/312; }
+    .g-r229  { aspect-ratio: 336/147; }
+    .g-r215  { aspect-ratio: 336/156; }
+    .g-r225  { aspect-ratio: 336/149; }
+    .g-r206  { aspect-ratio: 336/163; }
+    .g-r130  { aspect-ratio: 339/260; }
+    .g-r209  { aspect-ratio: 339/162; }
+    .g-r171  { aspect-ratio: 339/198; }
+    .g-r188  { aspect-ratio: 339/180; }
+    .g-r140  { aspect-ratio: 339/242; }
+
+    /* ── SHARED WRAPPER ─────────────────────────────────────────── */
+    .wrap {
+      max-width: 1728px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 3vw, 50px);
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────────────── */
+    .about { padding: 40px 0 0; }
+
+    .about-heading {
+      font-size: clamp(22px, 2.4vw, 30px);
+      font-weight: bold;
+      max-width: 620px;
+      line-height: 1.35;
+      margin-bottom: 1.4rem;
+    }
+    .about-heading .hl { color: var(--blue); }
+
+    .about-body {
+      font-size: clamp(15px, 1.2vw, 20px);
+      line-height: 1.65;
+      max-width: 980px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── STATS ──────────────────────────────────────────────────── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .stat {
+      background: var(--blue);
+      color: var(--cream);
+      padding: clamp(30px, 4vw, 57px) 20px clamp(30px, 4vw, 68px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 4px;
+    }
+    .stat-num   { font-size: clamp(22px, 2.5vw, 30px); font-weight: bold; }
+    .stat-label { font-size: clamp(18px, 2vw, 28px);   font-weight: bold; }
+    .stat-sub   { font-size: clamp(13px, 1vw, 18px); }
+
+    /* ── SECTION HEADINGS ───────────────────────────────────────── */
+    .section-head {
+      font-size: clamp(22px, 2.4vw, 30px);
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    .section-sub {
+      font-size: clamp(15px, 1.2vw, 20px);
+      margin-bottom: 1.8rem;
+    }
+
+    /* ── WHY SVTT ───────────────────────────────────────────────── */
+    .why { padding: 40px 0; }
+
+    .testimonials {
+      display: flex;
+      gap: clamp(20px, 3vw, 38px);
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .t-card {
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 4px 2px rgba(0,0,0,.25);
+      padding: 22px 18px;
+      font-size: clamp(14px, 1.1vw, 17px);
+      line-height: 1.6;
+      flex: 1 1 280px;
+      max-width: 540px;
+    }
+    .t-card:nth-child(1) { transform: rotate(-5.81deg); }
+    .t-card:nth-child(2) { transform: rotate(3.18deg);  }
+    .t-card:nth-child(3) { transform: rotate(-1.98deg); }
+
+    .t-quote  { margin-bottom: .9rem; }
+    .t-author { text-align: right; font-style: italic; font-size: .9em; }
+
+    /* ── PAST TREKKERS ──────────────────────────────────────────── */
+    .trekkers { padding: 20px 0 40px; }
+
+    .trekkers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(10px, 1.5vw, 20px);
+    }
+
+    .t-card-link {
+      display: block;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      height: clamp(160px, 16vw, 288px);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .t-card-link img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform .4s ease;
+    }
+    .t-card-link:hover img { transform: scale(1.04); }
+
+    .t-overlay {
+      position: absolute;
+      inset: 0;
+      background: #d9d9d9;
+      opacity: .71;
+      border-radius: 10px;
+      transition: opacity .3s;
+    }
+    .t-card-link:hover .t-overlay { opacity: .45; }
+
+    .t-info {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px 14px;
+    }
+    .t-name  { font-weight: bold; font-size: clamp(14px, 1.4vw, 22px); margin-bottom: 4px; }
+    .t-role  { font-size: clamp(11px, 1vw, 17px); margin-bottom: 2px; line-height: 1.3; }
+    .t-year  { font-size: clamp(11px, 1vw, 16px); color: #444; }
+
+    /* ── PAST SPEAKERS ──────────────────────────────────────────── */
+    .speakers { padding: 10px 0 50px; }
+    .speakers-title {
+      font-size: clamp(20px, 2.4vw, 30px);
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .speakers-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(1rem, 2vw, 1.8rem) clamp(2rem, 5vw, 5rem);
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .sp-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: clamp(90px, 10vw, 165px);
+      text-align: center;
+    }
+
+    .sp-logo {
+      max-height: 60px;
+      max-width: 140px;
+      width: 100%;
+      object-fit: contain;
+      object-position: bottom;
+    }
+    .sp-name { font-weight: bold; font-size: clamp(13px, 1vw, 18px); line-height: 1.3; }
+    .sp-role { font-size: clamp(11px, .9vw, 16px); line-height: 1.3; color: #222; }
+
+    /* ── FOOTER ─────────────────────────────────────────────────── */
+    footer {
+      background: var(--blue);
+      padding: 14px 40px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .footer-rule { width: 100%; height: 3px; background: #fff; }
+    .footer-logo { max-width: 280px; width: 100%; }
+    .footer-copy { font-size: 15px; color: #fff; text-align: center; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .trekkers-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .hero-rule { display: none; }
+      .hero-inner { flex-direction: column; align-items: flex-start; }
+      .hero-logo { width: min(260px, 65vw); }
+
+      /* hide 2 outer gallery columns on tablet */
+      .gallery-col:nth-child(4),
+      .gallery-col:nth-child(5) { display: none; }
+
+      .t-card {
+        transform: none !important;
+        max-width: 90vw;
+        flex: 0 0 auto;
+        width: 90vw;
+      }
+
+      .trekkers-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 520px) {
+      .gallery-col:nth-child(3) { display: none; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .trekkers-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .t-card-link { height: clamp(130px, 40vw, 200px); }
+      .speakers-grid { gap: .8rem 1.5rem; }
+      .sp-item { width: clamp(80px, 26vw, 130px); }
+    }
+  </style>
 </head>
+<body>
 
-<body id="top">
+<!-- ═══════════════════════════════════════════════════ HERO -->
+<header class="hero">
+  <video class="hero-video" src="images/video.mp4"
+         autoplay muted loop playsinline></video>
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <img src="https://www.figma.com/api/mcp/asset/0e069485-5270-47c4-9f5f-b6bde4a60e96"
+           alt="Silicon Valley TigerTrek™ — SVTT">
+    </div>
+    <div class="hero-rule" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <h1>Meet the legends.<br>Become one.</h1>
+      <p>Off-the-record conversations with the founders, VCs, and executives shaping the future.</p>
+      <a class="apply-btn" href="https://forms.gle/wX71JhRCgBNV3RBG6" target="_blank" rel="noopener">Apply here</a>
+    </div>
+  </div>
+</header>
 
-   <!-- Header -->
-   <!-- <header id="header" class="alt"> -->
+<!-- ═══════════════════════════════════════════════════ PHOTO GALLERY -->
+<section class="gallery" aria-label="Trek photos">
+  <!-- Column 1 -->
+  <div class="gallery-col">
+    <img class="g-r194" src="https://www.figma.com/api/mcp/asset/4dcf74fe-4e73-489f-a592-f9a8b04d7df9" alt="">
+    <img class="g-r148" src="https://www.figma.com/api/mcp/asset/ca614467-26f3-4726-8b16-5b628075abbf" alt="">
+    <img class="g-r157" src="https://www.figma.com/api/mcp/asset/9a6bddcb-75e7-4d21-a819-21e6625b0a87" alt="">
+  </div>
+  <!-- Column 2 -->
+  <div class="gallery-col">
+    <img class="g-r108a" src="https://www.figma.com/api/mcp/asset/93674aa3-f344-43f9-bab1-c3d41c65e7df" alt="">
+    <img class="g-r108b" src="https://www.figma.com/api/mcp/asset/9f8f5a98-a341-4ffa-97c0-5a3f88bcf746" alt="">
+  </div>
+  <!-- Column 3 -->
+  <div class="gallery-col">
+    <img class="g-r229" src="https://www.figma.com/api/mcp/asset/a591c69b-bfd5-44eb-87ef-6d8b4c4c88ac" alt="">
+    <img class="g-r215" src="https://www.figma.com/api/mcp/asset/cb8a7adb-15c3-4867-925a-7a6e3073445f" alt="">
+    <img class="g-r225" src="https://www.figma.com/api/mcp/asset/842c2a85-11d6-4f48-9129-97db8f95ddf5" alt="">
+    <img class="g-r206" src="https://www.figma.com/api/mcp/asset/c1ac5cc8-4a20-4345-8592-beb9c2fa4a03" alt="">
+  </div>
+  <!-- Column 4 -->
+  <div class="gallery-col">
+    <img class="g-r130" src="https://www.figma.com/api/mcp/asset/6edebd3f-b871-4b50-b7da-3e1185e7c103" alt="">
+    <img class="g-r209" src="https://www.figma.com/api/mcp/asset/f5b0e98e-2c5c-4b17-8819-870226d5a2a2" alt="">
+    <img class="g-r171" src="https://www.figma.com/api/mcp/asset/8d090c32-183c-4233-9d6b-90d32f2b6e9c" alt="">
+  </div>
+  <!-- Column 5 -->
+  <div class="gallery-col">
+    <img class="g-r188" src="https://www.figma.com/api/mcp/asset/1ffcde43-2d75-40d3-a54d-10d2bf44c67d" alt="">
+    <img class="g-r140" src="https://www.figma.com/api/mcp/asset/fa1a8b1c-c473-419b-bc11-f6e3592575eb" alt="">
+    <img class="g-r171" src="https://www.figma.com/api/mcp/asset/d3125fea-7d20-4955-878f-d8ef22c92832" alt="">
+  </div>
+</section>
 
-   <!-- Logo -->
-   <!-- <div class="logo"> -->
-   <!-- <img src="images/svttLogoWhite.svg"></img> -->
-   <!-- </div> -->
+<!-- ═══════════════════════════════════════════════════ ABOUT + STATS -->
+<div class="wrap">
+  <section class="about">
+    <h2 class="about-heading">
+      The <span class="hl">right conversation</span> at the
+      <span class="hl">right time</span> changes what people spend their lives on.
+    </h2>
+    <p class="about-body">
+      Princeton Silicon Valley TigerTrek™ is an annual trip that brings 20 Princeton students to
+      Silicon Valley for off-the-record Q&amp;A's with industry legends. Year after year, this trip
+      has transformed the ideas and career goals of both trip participants and students back on campus.
+    </p>
+  </section>
+</div>
 
-   <!-- Nav -->
-   <!-- <nav id="nav">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li>
-                    <a href="#" class="icon fa-angle-down">Dropdown</a>
-                    <ul>
-                        <li><a href="#">Option One</a></li>
-                        <li><a href="#">Option Two</a></li>
-                        <li><a href="#">Option Three</a></li>
-                        <li>
-                            <a href="#">Submenu</a>
-                            <ul>
-                                <li><a href="#">Option One</a></li>
-                                <li><a href="#">Option Two</a></li>
-                                <li><a href="#">Option Three</a></li>
-                                <li><a href="#">Option Four</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="generic.html">Apply</a></li>
-                <li><a href="elements.html">Elements</a></li>
-            </ul>
-        </nav> -->
+<div class="stats" role="list">
+  <div class="stat" role="listitem">
+    <span class="stat-num">25</span>
+    <span class="stat-label">Legendary Leaders</span>
+    <span class="stat-sub">Who Have Disrupted the World</span>
+  </div>
+  <div class="stat" role="listitem">
+    <span class="stat-num">13</span>
+    <span class="stat-label">Years</span>
+    <span class="stat-sub">Of Community and Legacy</span>
+  </div>
+  <div class="stat" role="listitem">
+    <span class="stat-num">20</span>
+    <span class="stat-label">Princeton Students</span>
+    <span class="stat-sub">With a Passion for Entrepreneurship</span>
+  </div>
+  <div class="stat" role="listitem">
+    <span class="stat-num">200+</span>
+    <span class="stat-label">Applications</span>
+    <span class="stat-sub">To the Trek Each Year</span>
+  </div>
+</div>
 
-   <!-- </header> -->
+<!-- ═══════════════════════════════════════════════════ WHY SVTT -->
+<div class="wrap">
+  <section class="why">
+    <h2 class="section-head">Why <span style="color:var(--blue)">SVTT</span>?</h2>
+    <p class="section-sub">Testimonies</p>
 
-   <!-- Banner -->
-   <section id="banner">
-      <video autoplay loop muted playsinline poster="images/gradientSVTT.webp" id="backgroundvid">
-         <source src="images/video2.mp4" type='video/mp4; codecs="avc1.4D401E, mp4a.40.2"'>
-         <p>Fallback content to cover incompatibility issues</p>
-      </video>
-      </span>
-      <div class="inner">
-
-         <img class="logoImg" src="images/svttLogoWhiteTM.svg"></img>
-         <h3>Silicon Valley TigerTrek&#8482;</h3>
-         <p style="color:white;">SVTT 2026 Applications are now open!</p>
-         <ul class="actions">
-            <li><a href="https://forms.gle/wX71JhRCgBNV3RBG6" target="_blank" class="button wide special">Apply Here</a></li>
-            <!--<li> <a href="#one" class="button wide special">Learn More</a></li> <!--Use this button only when apps not open, otherwise comment this out. -->-->
-         </ul>
-         <!--p class="due-date">The application has extended to October 1, 2023 at 11:59PM.</p> -->
-         <!--p class="due-date">The applications for the 2024-2025 year will open in early September. We are looking forward to reading your applications!</p>-->
+    <div class="testimonials">
+      <div class="t-card">
+        <p class="t-quote">"TigerTrek was a peek behind the curtain into some of the most groundbreaking work in tech;
+          but, most importantly, it was a chance to rediscover what truly motivates me among a group of passionate,
+          authentic peers."</p>
+        <p class="t-author">— Liam Esparraguera '24, Computer Science</p>
       </div>
-   </section>
-
-   <!-- One -->
-   <section id="one" class="wrapper">
-      <div class="inner">
-         <div class="split centered reversed">
-            <section>
-               <h2 style="color: #2080ad">The Experience</h2>
-               <!-- Original Message -->
-               <!-- <p>The Silicon Valley TigerTrek&#8482; is Princeton’s annual Fall Break trip that brings 20 Princeton students to Silicon Valley for a week of off-the-record Q&A's with industry legends. Year after year, this trip transforms the ideas and career goals of students who go on the trip and of students back on campus. The trip costs $500 but all financial aid needs are met.</p> -->
-               <p>Princeton Silicon Valley TigerTrek&#8482; is an annual trip that
-                  brings 20 Princeton students to Silicon Valley for off-the-record Q&A's with industry
-                  legends. Year after year, this trip has transformed the ideas and career goals of both trip participants and students 
-                  back on campus.</p>
-               <p>In the 2025-26 Academic Year, SVTT will occur during Winter Recess (Jan 14-24, 2026). The
-                  experience will consist of an action-packed week during which participants will spend time with legendary
-                  executives, founders, and venture capitalists in informal, intimate settings and
-                  receive one-on-one mentorship from top alumni.</p>
-               <p>
-                  This year's theme is <b>Into the Unknown</b>. What kind of world are we entering with innovations in technology, policy, and human-focused development? What does the future look like ... 5 years from now? 25 years from now? Let's journey together, into the unknown. 
-				<p>This organization is open to all Princeton University students interested in supporting our organization’s mission, regardless of identity, such as race, sex, ethnicity, national origin, or other protected characteristics.
-				</p>
-               </p>
-            </section>
-            <!-- ORIGINAL EXPERIENCE SECTION -->
-            <!-- <section>
-               <h2 style="color: #2080ad">The Experience</h2>
-               <p>A week of Q&A’s with legendary founders and CEOs, the students return excited to pursue alternative career paths — continuing the spirit of the Valley. Along the way, they meet mentors from the Princeton alumni community in the Bay Area. And back on campus, they spread the lessons and wisdom they’ve learned from being embedded in Silicon Valley with fellow students.</p>
-            </section> -->
-         </div>
+      <div class="t-card">
+        <p class="t-quote">SVTT helped me find my tribe. When I came to Princeton from Romania, I was eager to act on
+          my entrepreneurial interests. However, the University environment does not offer too many chances to break
+          the "Orange Bubble," especially when it comes to entrepreneurship. TigerTrek filled in that gap, allowing me
+          to connect and learn from both entrepreneurial legends and Princeton peers I would have not met otherwise.
+          This made this program one of the most valuable aspects of my Princeton education.</p>
+        <p class="t-author">— Theodor Marcu '20, Computer Science</p>
       </div>
-   </section>
-
-   <!-- Two -->
-   <section id="two" class="wrapper style1 special">
-      <div class="inner">
-         <div class="stats">
-            <article>
-               <h3><span>1</span> Wintersession</h3>
-               <p>In Silicon Valley</p>
-               <!-- <h3><span>1</span> Week</h3>
-               <p>In Silicon Valley</p> -->
-            </article>
-            <article>
-               <h3><span>20</span> Princeton Students</h3>
-               <p>With a Passion for Entrepreneurship</p>
-            </article>
-            <article>
-               <h3><span>25</span> Legendary Leaders</h3>
-               <p>Who Have Disrupted the World</p>
-            </article>
-            <article>
-               <h3><span>13</span> Years</h3>
-               <p>Of Community and Legacy</p>
-            </article>
-         </div>
+      <div class="t-card">
+        <p class="t-quote">"Applying to SVTT was one of the best decisions I've made in my four years at Princeton.
+          It was inspiring to meet other students who are so clearly passionate about making a difference in the world.
+          I walked away from each speaker excited about the future and with so much to think about — from interpersonal
+          relationships, to finding your path, the future of technology, and aligning career with purpose. I am so
+          grateful for the diverse perspectives and the sense of community I found in my fellow trekkers!"</p>
+        <p class="t-author">— Daphne Hao '25, Molecular Biology &amp; History</p>
       </div>
-   </section>
+    </div>
+  </section>
 
-   <!-- Three -->
-   <section id="three" class="wrapper">
-      <div class="inner">
-         <ul class="tabs">
-            <li>
-               <h3>Before The Trip</h3>
-               <div class="split reversed">
-                  <div class="content">
-                     <p>Applications for the trip open each year in September. The TigerTrek&#8482; leadership
-                        hosts info sessions to spread the word; over 200 students applied for the 2025 TigerTrek&#8482;.</p>
+  <!-- ═══════════════════════════════════════════════ PAST TREKKERS -->
+  <section class="trekkers">
+    <p class="section-sub" style="margin-bottom:1.2rem;">Past Trekkers</p>
+    <div class="trekkers-grid">
 
-                     <p>Before the trip, we ask participants to join us for several events to meet each other and engage in activities
-                        to learn about the speakers we will meet. This ensures everyone is prepared with insightful questions to maximize the experience.
-                        </p>
-                     <!-- <p>Between selection and the trip itself, we ask the participants to join us for several events to meet others going on the trip and for some training — to make sure students go in with very good background knowledge about the speakers
-                        we are visiting and are prepared with insightful questions. We also pair students with a mentor in the Bay Area, who they will then meet during the trip itself.</p> -->
+      <a class="t-card-link" href="https://www.linkedin.com/in/pgokhale/" target="_blank" rel="noopener">
+        <img src="https://www.figma.com/api/mcp/asset/985b2c45-a94e-4c4f-bad8-61be0ddd5602" alt="Pranav Gokhale">
+        <div class="t-overlay"></div>
+        <div class="t-info">
+          <p class="t-name">Pranav Gokhale '15</p>
+          <p class="t-role">Co-founder &amp; CTO @ Infleqtion</p>
+          <p class="t-year">SVTT 2013</p>
+        </div>
+      </a>
 
-                  </div>
-                  <div class="image"><img src="images/24-pretrip.webp" alt="" /></div>
-               </div>
-            </li>
-            <li>
-               <h3>During The Trip</h3>
-               <div class="split reversed">
-                  <div class="content">
-                     <p>Participants spend two weeks meeting some of the most influential figures of the century.
-                        Students have behind-the-scenes conversations with the founders of cutting edge startups, C-suite
-                        executives at influential tech giants, and partners at pioneering VC firms.
-                        </br>
-                        </br>
-                        They learn from the stories and experiences of not only these influential figures, but from each
-                        other. Along the way, the Princeton students get a taste of the innovation intrinsic to Silicon Valley's core.</p>
-                     <!-- <p>Participants spend a week meeting with some of the most influential figures of the century. Students have behind-the-doors conversations with the founders of cutting edge startups, C-suite executives at influential tech giants, and
-                        partners at pioneering VC firms.
-                        </br>
-                        </br>
-                        They learn from the stories and experiences of not only these influential figures, but from each other. Along the way, the Princeton students get a taste of the magic of Silicon Valley and the innovation that is intrinsic to its core.</p> -->
-                  </div>
-                  <div class="image"><img src="images/24-trip.webp" alt="" /></div>
-               </div>
-            </li>
-            <li>
-               <h3>After the Trip</h3>
-               <div class="split reversed">
-                  <div class="content">
-                     <p>Mentorship continues after the trip — and we hold meetups to help the TigerTrek&#8482; group
-                        stay in touch as they apply the principles they've learned from the trip to their own lives.</p>
+      <a class="t-card-link" href="https://www.linkedin.com/in/taylor-francis-4ba49640/" target="_blank" rel="noopener">
+        <img src="https://www.figma.com/api/mcp/asset/4e7a3fca-5409-4fc5-93b8-2745bf1839d7" alt="Taylor Francis">
+        <div class="t-overlay"></div>
+        <div class="t-info">
+          <p class="t-name">Taylor Francis '17</p>
+          <p class="t-role">Co-founder @ Watershed</p>
+          <p class="t-year">SVTT 2012</p>
+        </div>
+      </a>
 
-                     <p>Then, we focus on spreading the messages from TigerTrek&#8482; to the broader campus population.
-                        Many of the students on TigerTrek&#8482; are involved in E-Club and other campus organizations,
-                        and they bring in speakers and host events fueled by what they've learned.</p>
-                  </div>
-                  <div class="image"><img src="images/24-midtrip.webp" alt="" /></div>
-               </div>
-            </li>
-         </ul>
+      <a class="t-card-link" href="https://www.linkedin.com/in/vincent-po/" target="_blank" rel="noopener">
+        <img src="https://www.figma.com/api/mcp/asset/53870139-7b66-46a0-9128-c5fb5e201a8b" alt="Vincent Po">
+        <div class="t-overlay"></div>
+        <div class="t-info">
+          <p class="t-name">Vincent Po '18</p>
+          <p class="t-role">Head of Scholars Program @ Neo</p>
+          <p class="t-year">SVTT 2013</p>
+        </div>
+      </a>
+
+      <a class="t-card-link" href="https://www.linkedin.com/in/nikhilbt/" target="_blank" rel="noopener">
+        <img src="https://www.figma.com/api/mcp/asset/4a7fb445-3fa3-4a87-a2d7-c0dc8a88dd34" alt="Nikhil Trivedi">
+        <div class="t-overlay"></div>
+        <div class="t-info">
+          <p class="t-name">Nikhil Trivedi '11</p>
+          <p class="t-role">Footwork VC</p>
+          <p class="t-year">SVTT Founder</p>
+        </div>
+      </a>
+
+      <a class="t-card-link" href="https://www.linkedin.com/in/jerry-liu-64390071/" target="_blank" rel="noopener">
+        <img src="https://www.figma.com/api/mcp/asset/92c4a252-b478-4a58-87b1-c51c34dbb186" alt="Jerry Liu">
+        <div class="t-overlay"></div>
+        <div class="t-info">
+          <p class="t-name">Jerry Liu '17</p>
+          <p class="t-role">Co-founder &amp; CEO @ LlamaIndex</p>
+          <p class="t-year">SVTT 2015</p>
+        </div>
+      </a>
+
+      <a class="t-card-link" href="https://www.linkedin.com/in/elizabeth-dorman-4031a2124/" target="_blank" rel="noopener">
+        <img src="https://www.figma.com/api/mcp/asset/305d354b-94c7-4b88-a6de-e436f138ea81" alt="Liz Dorman">
+        <div class="t-overlay"></div>
+        <div class="t-info">
+          <p class="t-name">Liz Dorman '23</p>
+          <p class="t-role">Co-founder &amp; CEO @ Era</p>
+          <p class="t-year">SVTT 2022</p>
+        </div>
+      </a>
+
+      <a class="t-card-link" href="https://www.linkedin.com/in/ed-tian/" target="_blank" rel="noopener">
+        <img src="https://www.figma.com/api/mcp/asset/94b6df61-693f-44e9-8c19-6a58ac0ce8ec" alt="Edward Tian">
+        <div class="t-overlay"></div>
+        <div class="t-info">
+          <p class="t-name">Edward Tian '23</p>
+          <p class="t-role">Founder @ GPTZero</p>
+          <p class="t-year">SVTT 2021</p>
+        </div>
+      </a>
+
+      <a class="t-card-link" href="https://www.linkedin.com/in/theodormarcu/" target="_blank" rel="noopener">
+        <img src="https://www.figma.com/api/mcp/asset/d67ae366-bccd-40f7-95ed-228b05188838" alt="Theodor Marcu">
+        <div class="t-overlay"></div>
+        <div class="t-info">
+          <p class="t-name">Theodor Marcu '20</p>
+          <p class="t-role">Head of Product Growth @ Cognition</p>
+          <p class="t-year">SVTT 2018</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ PAST SPEAKERS -->
+  <section class="speakers">
+    <h2 class="speakers-title">Meet our Past Speakers</h2>
+    <div class="speakers-grid">
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/77238257-ae79-424f-aee9-a20b5a53867c" alt="Apple">
+        <p class="sp-name">Steve Wozniak</p>
+        <p class="sp-role">Co-founder<br>Apple</p>
       </div>
-   </section>
 
-   <section id="five" class="wrapper">
-      <div class="inner">
-         <div class="split">
-            <section>
-               <h2>An Experience for Innovators</h2>
-               <span class="image portrait fit"><img src="images/14-new.webp" alt="" /></span>
-            </section>
-            <div class="features" style="text-align: center;">
-               <article class="icon">
-                  <img src="images/twitter.png" style="max-width: 75px; height: auto; "></img>
-                  <h3>Jack Dorsey</h3>
-                  <p>Founder and CEO</br>Twitter and Square</p>
-               </article>
-               <article class="icon">
-                  <img src="images/airbnb-logo.png"
-                     style="max-width: 75px; height: auto; "></img>
-                  <h3>Joe Gebbia</h3>
-                  <p>Co-Founder and CPO</br>Airbnb</p>
-               </article>
-               <article class="icon">
-                  <img src="https://2015.jsconf.eu/sponsors/images/palantir.svg"
-                     style="max-width: 75px; height: auto; "></img>
-                  <h3>Alex Karp</h3>
-                  <p> Co-Founder and CEO</br> Palantir</p>
-               </article>
-               <article class="icon">
-                  <img src="images/Nuna_Yellow_Logo.png"
-                     style="max-width: 75px; height: auto; "></img>
-                  <h3>Jini Kim</h3>
-                  <p> Founder and CEO</br>
-                     Nuna Health</p>
-               </article>
-            </div>
-   </section>
-
-   <!-- Four -->
-   <section id="four" class="quotes">
-      <article class="icon fa-quote-left">
-         <span class="image"><img src="images/07.webp" alt="" data-position="center" /></span>
-         <h2>"Silicon Valley TigerTrek&#8482; was definitely a driving force behind my decision to take time off to
-            pursue my startup."</h2>
-         <div class="author">
-            <span class="name"><b style="color: #2080ad ">Darshan</b> Desai</span>
-            <span class="title"><b>Founder</b> of Plan</br><b>Favorite visit:</b> Andy Rachleff @ Wealthfront</span>
-         </div>
-      </article>
-      <article class="icon fa-quote-left">
-         <span class="image"><img src="images/06.webp" alt="" data-position="left" /></span>
-         <h2>"The trip made it clear that joining the tech industry was not about building technology alone, but about
-            how technology can help achieve a vision."</h2>
-         <div class="author">
-            <span class="name">Catherine Morrison</span>
-            <span class="title"><b>Senior Project Manager</b> at Headway</br><b>Favorite Visit:</b> Hunter Walk @ Homebrew</span>
-         </div>
-      </article>
-   </section>
-
-   <!-- Five -->
-   <section id="five" class="wrapper">
-      <div class="inner">
-         <div class="split">
-            <section>
-               <h2>An Experience for Venture Capitalists</h2>
-               <span class="image portrait fit"><img src="images/15-new.webp" alt="" /></span>
-            </section>
-            <div class="features" style="text-align: center;">
-               <article class="icon">
-                  <img src="images/founderfund.png" style="max-width: 75px; height: auto; "></img>
-                  <h3>Peter Thiel</h3>
-                  <p>Founder</br>Founder's Fund and Palantir</p>
-               </article>
-               <article class="icon">
-                  <img src="images/benchmark.png" style="max-width: 75px; height: auto; "></img>
-                  <h3>Peter Fenton</h3>
-                  <p>General Partner</br>Benchmark</p>
-               </article>
-               <article class="icon">
-                  <img src="images/svangel.png" style="max-width: 75px; height: auto; "></img>
-                  <h3>Ron Conway</h3>
-                  <p>Founder and Co-Managing Partner</br>SV Angel</p>
-               </article>
-               <article class="icon">
-                  <img src="images/kpcb.png" style="max-width: 75px; height: auto;"></img>
-                  <h3>Bill Campbell</h3>
-                  <p> Founder</br>
-                     KPCB</p>
-               </article>
-            </div>
-   </section>
-
-   <section id="four" class="quotes">
-      <article class="icon fa-quote-left">
-         <span class="image"><img src="images/13.webp" alt="" data-position="center" /></span>
-         <h2>"SVTT is undoubtedly my most important Princeton experience. You come away with the distilled wisdom of
-            people who have done it all and inspirational new friends who will be the next generation of them in the
-            future."</h2>
-         <div class="author">
-            <span class="name"><b style="color: #2080ad ">Prem</b> Qu Nair</span>
-            <span class="title"><b> Software Engineer</b> at Exafunction</br><b>Favorite visit:</b> Peter Fenton @
-               Benchmark</span>
-         </div>
-      </article>
-      <article class="icon fa-quote-left">
-         <span class="image"><img src="images/Anna-min.webp" alt="" data-position="left" /></span>
-         <h2>"TigerTrek&#8482; combines unparalleled exposure to leading figures in Silicon Valley with the best of
-            Princeton: talented peers, thoughtful discussions, and a focus on impact."</h2>
-         <div class="author">
-            <span class="name">Anna Matlin</span>
-            <span class="title"><b>Senior Data Scientist</b> at AirBnb</br><b>Favorite Visit:</b> Sarah Friar @ Square</span>
-         </div>
-      </article>
-   </section>
-   <section id="five" class="wrapper">
-      <div class="inner">
-         <div class="split">
-            <section>
-               <h2>An Experience for Leaders</h2>
-               <span class="image portrait fit"><img src="images/16.webp" width="500" alt="" /></span>
-            </section>
-            <div class="features" style="text-align: center;">
-               <article class="icon">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/F_icon.svg/1024px-F_icon.svg.png"
-                     style="max-width: 75px; height: auto; "></img>
-                  <h3>Sheryl Sandberg</h3>
-                  <p>COO</br>Facebook</p>
-               </article>
-               <article class="icon">
-                  <img src="https://developers.google.com/site-assets/logo-youtube.svg"
-                     style="max-width: 75px; height: auto; "></img>
-                  <h3>Susan Wojcicki</h3>
-                  <p>CEO</br>YouTube</p>
-               </article>
-               <article class="icon">
-                  <img src="images/waymo.png" style="max-width: 75px; height: auto; "></img>
-                  <h3>John Krafcik</h3>
-                  <p>CEO</br>Waymo</p>
-               </article>
-               <article class="icon">
-                  <img
-                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Hewlett_Packard_Enterprise_logo.svg/1373px-Hewlett_Packard_Enterprise_logo.svg.png"
-                     style="max-width: 75px; height: auto; "></img>
-                  <h3>Meg Whitman</h3>
-                  <p> CEO</br>
-                     HPE</p>
-               </article>
-            </div>
-   </section>
-   </div>
-
-   </div>
-   </section>
-
-   <!-- Footer -->
-   <footer id="footer">
-      <div class="inner">
-         <div class="style1">
-            <!-- <div class="contact">
-                    <h2>Contact</h2>
-                    <ul class="contact-icons">
-                        <li class="icon fa-home"><a href="#">1234 Fictional Street #5432<br>Nashville, TN 00000-0000</a></li>
-                        <li class="icon fa-phone"><a href="#">(000) 000-0000</a></li>
-                        <li class="icon fa-envelope-o"><a href="#">info@untitled.tld</a></li>
-                    </ul>
-                    <ul class="icons-bordered">
-                        <li>
-                            <a class="icon fa-facebook" href="#">
-                                <span class="label">Facebook</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="icon fa-twitter" href="#">
-                                <span class="label">Twitter</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="icon fa-instagram" href="#">
-                                <span class="label">Instagram</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="icon fa-github" href="#">
-                                <span class="label">GitHub</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="icon fa-linkedin" href="#">
-                                <span class="label">LinkedIn</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div> -->
-            <form action="https://formspree.io/f/mnqkvbvb" method="POST"> <!-- RW '24 Formspree: update for new directors -->
-               <h2>Email Us</h2>
-               <div class="field half first">
-                  <input name="name" id="name" placeholder="Name" type="text" required/>
-               </div>
-               <div class="field half">
-                  <input name="email" id="email" placeholder="Email" type="email" required/>
-               </div>
-               <div class="field">
-                  <textarea name="message" id="message" rows="6" placeholder="Message" required></textarea>
-               </div>
-               <ul class="actions">
-                  <li><input value="Send Message" class="button" type="submit" /></li>
-               </ul>
-            </form>
-         </div>
-         <div class="copyright">
-            <a href="http://princeton.edu"><img src="images/madewithloveatPrinceton.png"
-                  style="max-width: 250px; height: auto;"></img></a>
-            <p>&copy; Silicon Valley TigerTrek&#8482; 2022</p>
-         </div>
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/1281bf76-67c4-4ec9-9fb9-d69767d0a9b7" alt="Founders Fund">
+        <p class="sp-name">Peter Thiel</p>
+        <p class="sp-role">Founder<br>Founder's Fund &amp; Palantir</p>
       </div>
-   </footer>
 
-   <!-- Scripts -->
-   <script src="assets/js/jquery.min.js"></script>
-   <script src="assets/js/jquery.dropotron.min.js"></script>
-   <script src="assets/js/jquery.scrollex.min.js"></script>
-   <script src="assets/js/jquery.scrolly.min.js"></script>
-   <script src="assets/js/jquery.selectorr.min.js"></script>
-   <script src="assets/js/skel.min.js"></script>
-   <script src="assets/js/util.js"></script>
-   <script src="assets/js/main.js"></script>
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/6a18682e-b984-437e-85c7-7900a92e3e73" alt="a16z">
+        <p class="sp-name">Ben Horowitz</p>
+        <p class="sp-role">Co-founder<br>Andreessen Horowitz</p>
+      </div>
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/8dd73841-e67d-4eeb-93da-6b93afb4e1b5" alt="OpenAI">
+        <p class="sp-name">Sam Altman</p>
+        <p class="sp-role">CEO<br>OpenAI</p>
+      </div>
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/fb82b813-b4f1-42b8-b4a4-bb295ba876c5" alt="Waymo">
+        <p class="sp-name">John Krafcik</p>
+        <p class="sp-role">CEO<br>Waymo</p>
+      </div>
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/efd6d477-93f4-4164-934f-8a7085e6b924" alt="Airbnb">
+        <p class="sp-name">Joe Gebbia</p>
+        <p class="sp-role">Co-founder<br>Airbnb</p>
+      </div>
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/9419040f-0cf7-44dc-abd5-4a6a606120ae" alt="Salesforce">
+        <p class="sp-name">Parker Harris</p>
+        <p class="sp-role">Co-founder &amp; CTO<br>Salesforce</p>
+      </div>
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/b8280cdb-8764-468b-b715-062d2576e967" alt="YouTube">
+        <p class="sp-name">Susan Wojcicki</p>
+        <p class="sp-role">CEO<br>YouTube</p>
+      </div>
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/e48126e7-1d3a-4818-9923-a8a4b78160e3" alt="Meta">
+        <p class="sp-name">Sheryl Sandberg</p>
+        <p class="sp-role">COO<br>Meta</p>
+      </div>
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/f40fb596-1b3d-4aee-8e7b-7d1ee0e573ee" alt="Palantir">
+        <p class="sp-name">Alex Karp</p>
+        <p class="sp-role">Co-Founder &amp; CEO<br>Palantir</p>
+      </div>
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/3287017c-6d91-45d8-b3d8-7159a961ba52" alt="eBay">
+        <p class="sp-name">Meg Whitman</p>
+        <p class="sp-role">CEO<br>eBay</p>
+      </div>
+
+      <div class="sp-item">
+        <img class="sp-logo" src="https://www.figma.com/api/mcp/asset/8ac3c81f-904b-42f5-8729-ad08f853cf09" alt="Google">
+        <p class="sp-name">Noam Shazeer</p>
+        <p class="sp-role">Gemini Co-Lead<br>Google</p>
+      </div>
+
+    </div>
+  </section>
+</div><!-- /wrap -->
+
+<!-- ═══════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="footer-rule"></div>
+  <img class="footer-logo"
+       src="https://www.figma.com/api/mcp/asset/a093bb59-a123-461e-a245-73478a5fd7d2"
+       alt="Made with love at Princeton">
+  <p class="footer-copy">© Silicon Valley TigerTrek™ 2026</p>
+</footer>
 
 </body>
-
 </html>
