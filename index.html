@@ -130,6 +130,9 @@
       object-fit: cover;
     }
 
+    /* col 3 has 4 images (3 gaps) vs 3 images (2 gaps) elsewhere; reduce gap to keep bottoms aligned */
+    .gallery-col:nth-child(3) { gap: 3px; }
+
     /* aspect ratios derived from Figma pixel heights ÷ 339px col width */
     .g-r194  { aspect-ratio: 339/175; }
     .g-r148  { aspect-ratio: 339/229; }
@@ -416,14 +419,14 @@
   <!-- Column 4 -->
   <div class="gallery-col">
     <img class="g-r130" src="images/Image%2010.jpg" alt="">
-    <img class="g-r209" src="images/09.jpg" alt="">
-    <img class="g-r171" src="images/11.jpg" alt="">
+    <img class="g-r209" src="images/Image%2011.jpg" alt="">
+    <img class="g-r171" src="images/Image%2012.jpg" alt="">
   </div>
   <!-- Column 5 -->
   <div class="gallery-col">
-    <img class="g-r188" src="images/13.jpg" alt="">
-    <img class="g-r140" src="images/16.jpg" alt="">
-    <img class="g-r171" src="images/24-midtrip.jpg.JPG" alt="">
+    <img class="g-r188" src="images/Image%2013.jpeg" alt="">
+    <img class="g-r140" src="images/Image%2014.jpg" alt="">
+    <img class="g-r171" src="images/Image%2015.jpeg" alt="">
   </div>
 </section>
 
